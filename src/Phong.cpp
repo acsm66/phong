@@ -26,6 +26,12 @@ void Phong::init() {
 
 	_wall.init(_renderer, "resources/wall.png");
 	_corner.init(_renderer, "resources/corner.png");
+	_player.init(_renderer, "resources/player.png");
+	_ball.init(_renderer, "resources/ball.png");
+
+	_gameAreaMin.x = _gameAreaMin.y = _wall.getWidth();
+	_gameAreaMax.x = _windowWidth - _wall.getWidth();
+	_gameAreaMax.y = _windowHeight - _wall.getWidth();
 }
 
 void Phong::run() {
@@ -41,6 +47,8 @@ void Phong::run() {
 			SDL_RenderClear(_renderer);
 
 			_drawBorders();
+			_drawPlayers();
+			_drawBall();
 
 			if (SDL_PollEvent(&event) != 0) {
 				switch (event.type) {
@@ -99,4 +107,23 @@ void Phong::_drawBorders() {
 	_corner.render(0, cornerBottomY, 0, SDL_FLIP_VERTICAL);
 	_corner.render(cornerRightX, 0, 0, SDL_FLIP_HORIZONTAL);
 	_corner.render(cornerRightX, cornerBottomY, 0, flipBoth);
+}
+
+void Phong::_drawPlayers() {
+	const int p1X = _gameAreaMin.x + 50;
+	const int p2X = _gameAreaMax.x - 50 - _player.getWidth();
+	const int centerY = (_gameAreaMax.y - _gameAreaMin.y) / 2;
+	const int playerCenterY = _player.getHeight() / 2;
+
+	_player.render(p1X, (centerY - playerCenterY), 0, SDL_FLIP_NONE);
+	_player.render(p2X, (centerY - playerCenterY), 0, SDL_FLIP_NONE);
+}
+
+void Phong::_drawBall() {
+	const int centerX = (_gameAreaMax.x - _gameAreaMin.x) / 2;
+	const int centerY = (_gameAreaMax.y - _gameAreaMin.y) / 2;
+	const int ballCenterX = _ball.getWidth() / 2;
+	const int ballCenterY = _ball.getHeight() / 2;
+
+	_ball.render((centerX - ballCenterX), (centerY - ballCenterY), 0, SDL_FLIP_NONE);
 }

@@ -11,6 +11,8 @@ public:
 
 private:
 	void _drawBorders();
+	void _drawPlayers();
+	void _drawBall();
 
 	int _windowWidth;
 	int _windowHeight;
@@ -22,4 +24,9 @@ private:
 
 	Sprite _wall;
 	Sprite _corner;
+	Sprite _player;
+	Sprite _ball;
+
+	SDL_Point _gameAreaMin;
+	SDL_Point _gameAreaMax;
 };
